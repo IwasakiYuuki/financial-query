@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
+import { ThemeProvider } from '@/lib/theme'
 
 export const metadata: Metadata = {
   title: 'FinancialQuery - 財務データ分析プラットフォーム',
@@ -14,9 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className="bg-gray-50">
-        <Header />
-        <main>{children}</main>
+      <body className="bg-gray-50 dark:bg-gray-900 transition-colors">
+        <ThemeProvider>
+          <Header />
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   )
