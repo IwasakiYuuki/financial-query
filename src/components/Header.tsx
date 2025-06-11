@@ -15,10 +15,13 @@ export default function Header() {
       label: 'ファクトブック', 
       active: pathname.startsWith('/factbook'),
       submenu: [
-        { href: '/factbook', label: '企業情報' },
-        { href: '/factbook/income-statement', label: '損益計算書' },
-        { href: '/factbook/balance-sheet', label: '貸借対照表' },
-        { href: '/factbook/cash-flow', label: 'キャッシュフロー' },
+        { href: '/factbook', label: '全分野' },
+        { href: '/factbook/corporate', label: '企業情報' },
+        { href: '/factbook/stock-market', label: '株式市場' },
+        { href: '/factbook/currency', label: '為替・通貨' },
+        { href: '/factbook/economic-indicators', label: '経済指標' },
+        { href: '/factbook/investment', label: '投資指標' },
+        { href: '/factbook/commodities', label: '商品・資源' },
       ]
     },
     { href: '/analysis', label: 'アドホック分析', active: pathname.startsWith('/analysis'), disabled: true },
@@ -32,14 +35,14 @@ export default function Header() {
           {/* ロゴ・サイト名 */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-financial-600 rounded-lg flex items-center justify-center shadow-sm">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
                 </svg>
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white">FinancialQuery</h1>
-                <p className="text-xs text-gray-500 dark:text-gray-400">財務データ分析プラットフォーム</p>
+                <p className="text-xs text-financial-600 dark:text-financial-400 font-medium">個人投資家向け金融データ分析</p>
               </div>
             </Link>
           </div>
@@ -62,7 +65,7 @@ export default function Header() {
                       href={item.href}
                       className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center ${
                         item.active
-                          ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                          ? 'bg-financial-50 dark:bg-financial-900 text-financial-700 dark:text-financial-300'
                           : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
@@ -152,7 +155,7 @@ export default function Header() {
               href={item.href}
               className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
                 item.active
-                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                  ? 'bg-financial-50 dark:bg-financial-900 text-financial-700 dark:text-financial-300'
                   : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >

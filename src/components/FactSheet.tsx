@@ -6,6 +6,7 @@ import PlotlyHistogram from './PlotlyHistogram';
 interface HistogramData {
   bin: number;
   freq: number;
+  binEnd?: number; // 区間終了値（新形式CSVの場合）
 }
 
 interface FactSheetProps {
@@ -23,7 +24,8 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
   // データをスケール変換
   const scaledData = data.map(item => ({
     bin: item.bin / scale,
-    freq: item.freq
+    freq: item.freq,
+    binEnd: item.binEnd ? item.binEnd / scale : undefined
   }));
 
   // 統計量の計算（元のデータで計算してからスケール変換）
@@ -136,7 +138,8 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
         <div className="mb-6 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
           <PlotlyHistogram 
             data={scaledData} 
-            title="" 
+            title={title} 
+            unit={unit}
             binSize={binSize / scale}
             xAxisMin={xAxisMin ? xAxisMin / scale : undefined}
             xAxisMax={xAxisMax ? xAxisMax / scale : undefined}
