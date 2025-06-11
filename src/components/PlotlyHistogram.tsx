@@ -140,7 +140,7 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
       name: '累積分布',
       yaxis: 'y2',
       hovertemplate: '<b>累積分布:</b> %{x:,}未満 %{y:.1f}%<extra></extra>',
-      customdata: cumulativeData.map(item => ({ binStart: item.binStart, binEnd: item.binEnd })),
+      customdata: cumulativeData.map(item => [item.binStart, item.binEnd]),
       showlegend: true,
     },
   ];
@@ -174,7 +174,7 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
         size: 11,
       },
       tickangle: -45, // ラベルを斜めにして重なりを防ぐ
-      tickmode: 'auto',
+      tickmode: 'auto' as const,
       nticks: 8, // 最大ティック数を制限
     },
     yaxis: {
@@ -196,7 +196,7 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
         color: colors.text,
         size: 11,
       },
-      side: 'left',
+      side: 'left' as const,
       fixedrange: true, // Y軸の範囲を固定
     },
     yaxis2: {
@@ -211,8 +211,8 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
       },
       tickformat: '.0f',
       ticksuffix: '%',
-      overlaying: 'y',
-      side: 'right',
+      overlaying: 'y' as const,
+      side: 'right' as const,
       showgrid: false,
       tickfont: {
         color: colors.text,
@@ -251,7 +251,7 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
     displayModeBar: false,
     // インタラクティブ機能を無効化
     scrollZoom: false,
-    doubleClick: false,
+    doubleClick: 'reset' as const,
     showTips: false,
   };
 
