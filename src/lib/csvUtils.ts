@@ -1,6 +1,7 @@
 export interface HistogramData {
   bin: number;
   freq: number;
+  binEnd?: number; // 区間終了値（新形式CSVの場合）
 }
 
 export function parseCSV(csvText: string): HistogramData[] {
@@ -29,8 +30,8 @@ export function parseCSV(csvText: string): HistogramData[] {
         const freq = parseInt(values[2], 10);
         
         if (!isNaN(binStart) && !isNaN(binEnd) && !isNaN(freq)) {
-          // bin_startをbinとして使用
-          data.push({ bin: binStart, freq });
+          // bin_startをbin、bin_endをbinEndとして保存
+          data.push({ bin: binStart, freq, binEnd });
         }
       } else {
         // 旧形式: bin, freq

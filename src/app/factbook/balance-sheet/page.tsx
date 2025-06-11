@@ -61,20 +61,56 @@ export default function BalanceSheetPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8 flex items-center justify-center">
-        <div className="text-gray-600">データを読み込み中...</div>
+      <div className="min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex items-center justify-center">
+          <div className="text-gray-600 dark:text-gray-300">データを読み込み中...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">貸借対照表（B/S）分析</h1>
-          <p className="text-gray-600">上場企業の貸借対照表項目の分布状況を可視化</p>
+    <div className="min-h-screen">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+        {/* パンくずリスト */}
+        <nav className="mb-8 sm:mb-12" aria-label="パンくず">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+            <li>
+              <a href="/factbook" className="hover:text-financial-600 dark:hover:text-financial-400 transition-colors">
+                ファクトブック
+              </a>
+            </li>
+            <li className="flex items-center">
+              <svg className="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+              <a href="/factbook/corporate" className="hover:text-financial-600 dark:hover:text-financial-400 transition-colors">
+                企業情報
+              </a>
+            </li>
+            <li className="flex items-center">
+              <svg className="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-financial-600 dark:text-financial-400 font-medium">貸借対照表</span>
+            </li>
+          </ol>
+        </nav>
+
+        {/* ヘッダーセクション */}
+        <div className="text-center mb-16 sm:mb-20 lg:mb-24">
+          <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">
+            貸借対照表（B/S）分析
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
+            上場企業の貸借対照表項目の分布状況を可視化
+          </p>
+          <p className="text-sm text-financial-600 dark:text-financial-400 font-medium">
+            企業の財政状態分析と安定性評価のためのデータ分析
+          </p>
         </div>
 
+        {/* データグリッド */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           <FactSheet
             data={totalAssetsData}
@@ -82,7 +118,6 @@ export default function BalanceSheetPage() {
             description="企業が保有する全ての資産の総額分布"
             unit="億円"
             binSize={100000000000}
-            xAxisMax={1000000000000}
             scale={100000000}
           />
 
@@ -92,7 +127,6 @@ export default function BalanceSheetPage() {
             description="1年以内に支払い期限が到来する負債の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMax={400000000000}
             scale={100000000}
           />
 
@@ -102,7 +136,6 @@ export default function BalanceSheetPage() {
             description="1年を超える長期的な債務の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMax={500000000000}
             scale={100000000}
           />
 
@@ -112,7 +145,6 @@ export default function BalanceSheetPage() {
             description="企業の負債総額の分布"
             unit="億円"
             binSize={20000000000}
-            xAxisMax={800000000000}
             scale={100000000}
           />
 
@@ -122,7 +154,6 @@ export default function BalanceSheetPage() {
             description="株主の持分に相当する資本の分布"
             unit="億円"
             binSize={20000000000}
-            xAxisMax={600000000000}
             scale={100000000}
           />
 
@@ -132,7 +163,6 @@ export default function BalanceSheetPage() {
             description="企業が蓄積してきた利益の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMax={400000000000}
             scale={100000000}
           />
 
@@ -142,7 +172,6 @@ export default function BalanceSheetPage() {
             description="企業が保有する現金・預金等の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMax={300000000000}
             scale={100000000}
           />
 
@@ -152,7 +181,6 @@ export default function BalanceSheetPage() {
             description="在庫として保有している資産の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMax={200000000000}
             scale={100000000}
           />
 
@@ -162,7 +190,6 @@ export default function BalanceSheetPage() {
             description="減価償却後の固定資産の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMax={600000000000}
             scale={100000000}
           />
 
@@ -172,7 +199,6 @@ export default function BalanceSheetPage() {
             description="M&A等で発生したのれんの分布"
             unit="億円"
             binSize={1000000000}
-            xAxisMax={50000000000}
             scale={100000000}
           />
 
@@ -182,8 +208,6 @@ export default function BalanceSheetPage() {
             description="営業活動に必要な運転資金の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMin={-300000000000}
-            xAxisMax={300000000000}
             scale={100000000}
           />
         </div>
