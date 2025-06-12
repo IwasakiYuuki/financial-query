@@ -8,6 +8,13 @@ export const metadata: Metadata = {
     title: '貸借対照表分析 - B/S財務指標 | FinancialQuery',
     description: '上場企業の貸借対照表11項目をヒストグラムで可視化。企業の財務健全性分析をサポート。',
     url: 'https://financial-query.vercel.app/factbook/balance-sheet',
+    images: ['/og-image.svg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '貸借対照表分析 - B/S財務指標 | FinancialQuery',
+    description: '上場企業の貸借対照表11項目をヒストグラムで可視化。企業の財務健全性分析をサポート。',
+    images: ['/og-image.svg'],
   },
 };
 

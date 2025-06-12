@@ -2,7 +2,6 @@ import './globals.css'
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import { ThemeProvider } from '@/lib/theme'
-import StructuredData from '@/components/StructuredData'
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'FinancialQuery - 財務データ分析プラットフォーム',
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'FinancialQuery - 財務データ分析プラットフォーム',
     description: '上場企業の財務諸表データの分布分析を財務諸表別に可視化',
-    images: ['/og-image.png'],
+    images: ['/og-image.svg'],
   },
   robots: {
     index: true,
@@ -63,8 +62,33 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "FinancialQuery",
+              "description": "上場企業の財務諸表データの分布分析を財務諸表別に可視化する分析プラットフォーム",
+              "url": "https://financial-query.vercel.app",
+              "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Web",
+              "inLanguage": "ja-JP",
+              "author": {
+                "@type": "Organization",
+                "name": "FinancialQuery Team"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "JPY"
+              }
+            })
+          }}
+        />
+      </head>
       <body className="bg-gray-50 dark:bg-gray-900 transition-colors">
-        <StructuredData type="webapp" />
         <ThemeProvider>
           <Header />
           <main>{children}</main>

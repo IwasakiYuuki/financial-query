@@ -8,6 +8,13 @@ export const metadata: Metadata = {
     title: 'キャッシュフロー分析 - C/F財務指標 | FinancialQuery',
     description: '上場企業のキャッシュフロー計算書6項目をヒストグラムで可視化。企業のキャッシュ創出力分析をサポート。',
     url: 'https://financial-query.vercel.app/factbook/cash-flow',
+    images: ['/og-image.svg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'キャッシュフロー分析 - C/F財務指標 | FinancialQuery',
+    description: '上場企業のキャッシュフロー計算書6項目をヒストグラムで可視化。企業のキャッシュ創出力分析をサポート。',
+    images: ['/og-image.svg'],
   },
 };
 
