@@ -11,7 +11,7 @@ export default function Home() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="w-16 h-16 bg-financial-100 dark:bg-financial-900 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-financial-600 dark:text-financial-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 text-financial-600 dark:text-financial-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
               </div>
@@ -287,6 +287,56 @@ export default function Home() {
                 各指標の分布状況を分野別に整理して提供しています。
                 データドリブンな投資仮説の構築、市場分析、資産配分の参考資料としてご活用ください。
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ・よくある質問セクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-4">
+                よくある質問
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                FinancialQueryの使い方や機能について
+              </p>
+            </div>
+            
+            <div className="space-y-8">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                  FinancialQueryでは、どのような財務指標を分析できますか？
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  現在、<Link href="/factbook/income-statement" className="text-financial-600 dark:text-financial-400 hover:underline">損益計算書（P/L）</Link>の7項目、
+                  <Link href="/factbook/balance-sheet" className="text-financial-600 dark:text-financial-400 hover:underline">貸借対照表（B/S）</Link>の11項目、
+                  <Link href="/factbook/cash-flow" className="text-financial-600 dark:text-financial-400 hover:underline">キャッシュフロー計算書（C/F）</Link>の6項目、
+                  合計25の財務指標をヒストグラム形式で可視化しています。総売上高、営業利益、純利益、総資産、株主資本、営業キャッシュフローなど、投資判断に重要な指標を網羅しています。
+                </p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                  データの更新頻度はどのくらいですか？
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  上場企業の財務諸表データは四半期ごとに更新され、最新の財務状況を反映したヒストグラム分析を提供しています。各指標の分布状況を通じて、企業の財務健全性や業界内での位置づけを把握できます。
+                </p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                  ヒストグラム分析の活用方法を教えてください
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  ヒストグラムを見ることで、ある企業の財務指標が「普通」なのか「異常」なのかを直感的に判断できます。例えば、ROE15%の企業があった場合、
+                  <Link href="/factbook" className="text-financial-600 dark:text-financial-400 hover:underline">ファクトブック</Link>
+                  でROEの分布を確認することで、それが上位20%に入る優秀な水準なのかを瞬時に理解できます。これにより、より深い投資仮説の構築が可能になります。
+                </p>
+              </div>
             </div>
           </div>
         </div>
