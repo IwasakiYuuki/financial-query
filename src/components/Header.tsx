@@ -41,19 +41,20 @@ export default function Header() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">FinancialQuery</h1>
-                <p className="text-xs text-financial-600 dark:text-financial-400 font-medium">個人投資家向け金融データ分析</p>
+                <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">FinancialQuery</h1>
+                <p className="text-xs text-financial-600 dark:text-financial-400 font-medium hidden sm:block">個人投資家向け金融データ分析</p>
+                <p className="text-xs text-financial-600 dark:text-financial-400 font-medium sm:hidden">金融データ分析</p>
               </div>
             </Link>
           </div>
 
           {/* ナビゲーション・ダークモード */}
           <div className="flex items-center space-x-4">
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden lg:flex space-x-6 xl:space-x-8">
             {navItems.map((item) => (
               <div key={item.href} className="relative group">
                 {item.disabled ? (
-                  <span className="px-3 py-2 rounded-md text-sm font-medium text-gray-400 dark:text-gray-500 cursor-not-allowed">
+                  <span className="px-2 lg:px-3 py-2 rounded-md text-sm font-medium text-gray-400 dark:text-gray-500 cursor-not-allowed whitespace-nowrap">
                     {item.label}
                     <span className="ml-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded-full">
                       近日公開
@@ -63,7 +64,7 @@ export default function Header() {
                   <>
                     <Link
                       href={item.href}
-                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center ${
+                      className={`px-2 lg:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center ${
                         item.active
                           ? 'bg-financial-50 dark:bg-financial-900 text-financial-700 dark:text-financial-300'
                           : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -117,8 +118,8 @@ export default function Header() {
             </button>
           </div>
 
-          {/* モバイルメニューボタン */}
-          <div className="md:hidden flex items-center space-x-2">
+          {/* タブレット・モバイルメニューボタン */}
+          <div className="lg:hidden flex items-center space-x-2">
             {/* モバイル版ダークモード切り替えボタン */}
             <button
               onClick={toggleTheme}
@@ -147,8 +148,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* モバイルナビゲーション（簡易版） */}
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-700 pt-4 pb-3 space-y-1">
+        {/* モバイル・タブレットナビゲーション（簡易版） */}
+        <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 pt-4 pb-3 space-y-1">
           {navItems.map((item) => (
             <Link
               key={`mobile-${item.href}`}

@@ -18,9 +18,10 @@ interface FactSheetProps {
   xAxisMin?: number;
   xAxisMax?: number;
   scale?: number; // 単位変換のスケール（例：1億円なら100000000）
+  customFacts?: string[]; // カスタムFactsリスト
 }
 
-export default function FactSheet({ data, title, description, unit, binSize, xAxisMin, xAxisMax, scale = 1 }: FactSheetProps) {
+export default function FactSheet({ data, title, description, unit, binSize, xAxisMin, xAxisMax, scale = 1, customFacts }: FactSheetProps) {
   // データをスケール変換
   const scaledData = data.map(item => ({
     bin: item.bin / scale,
@@ -105,45 +106,45 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
 
       <div className="p-6">
         {/* 統計量サマリー */}
-        <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 sm:p-6 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             <div className="text-center">
               <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">総数</p>
-              <div className="flex items-baseline justify-center">
-                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalCount.toLocaleString()}</p>
-                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">社</span>
+              <div className="flex flex-col sm:flex-row items-center justify-center">
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalCount.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 sm:ml-1">社</span>
               </div>
             </div>
             
             <div className="text-center">
               <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">平均値</p>
-              <div className="flex items-baseline justify-center">
-                <p className="text-2xl font-bold text-financial-600 dark:text-financial-400">{stats.mean.toLocaleString()}</p>
-                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              <div className="flex flex-col sm:flex-row items-center justify-center">
+                <p className="text-xl sm:text-2xl font-bold text-financial-600 dark:text-financial-400">{stats.mean.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 sm:ml-1">{unit}</span>
               </div>
             </div>
             
             <div className="text-center">
               <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">中央値</p>
-              <div className="flex items-baseline justify-center">
-                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.median.toLocaleString()}</p>
-                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              <div className="flex flex-col sm:flex-row items-center justify-center">
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.median.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 sm:ml-1">{unit}</span>
               </div>
             </div>
             
             <div className="text-center">
               <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">最小値</p>
-              <div className="flex items-baseline justify-center">
-                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.min.toLocaleString()}</p>
-                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              <div className="flex flex-col sm:flex-row items-center justify-center">
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.min.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 sm:ml-1">{unit}</span>
               </div>
             </div>
             
             <div className="text-center">
               <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">最大値</p>
-              <div className="flex items-baseline justify-center">
-                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.max.toLocaleString()}</p>
-                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              <div className="flex flex-col sm:flex-row items-center justify-center">
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.max.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 sm:ml-1">{unit}</span>
               </div>
             </div>
           </div>
@@ -170,22 +171,33 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
               Facts
             </h3>
             <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>データ数: {stats.totalCount.toLocaleString()}件</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>範囲: {stats.min.toLocaleString()}-{stats.max.toLocaleString()}{unit}</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>分布: 右歪み分布</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>ビン: {binSize.toLocaleString()}{unit}単位</span>
-              </li>
+              {customFacts ? (
+                customFacts.map((fact, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>{fact}</span>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>データ数: {stats.totalCount.toLocaleString()}件</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>範囲: {stats.min.toLocaleString()}-{stats.max.toLocaleString()}{unit}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>分布: 右歪み分布</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>ビン: {binSize.toLocaleString()}{unit}単位</span>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 

@@ -15,14 +15,14 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
               </div>
-              <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white tracking-tight">
                 FinancialQuery
               </h1>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-2">
               金融データの分布分析を多角的に可視化
             </p>
-            <p className="text-sm text-financial-600 dark:text-financial-400 font-medium mb-8">
+            <p className="text-sm text-financial-600 dark:text-financial-400 font-medium mb-8 px-4">
               企業情報・株価・為替・指標など幅広い金融データでデータドリブンな投資判断をサポート
             </p>
           </div>
@@ -40,7 +40,7 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+                <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight">
                   投資スキル向上の3ステップ
                 </h2>
               </div>
@@ -144,20 +144,20 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
-              <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                 サービス一覧
               </h2>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
               投資判断を支援する3つの主要サービスを提供しています
             </p>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 lg:p-12 border border-gray-200 dark:border-gray-700 shadow-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-8 lg:p-12 border border-gray-200 dark:border-gray-700 shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
           {/* ファクトブックカード */}
           <Link href="/factbook" className="group">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-financial-200 dark:hover:border-financial-700 transform hover:-translate-y-1">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-financial-200 dark:hover:border-financial-700 transform hover:-translate-y-1">
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto mb-6 bg-financial-100 dark:bg-financial-900 rounded-full flex items-center justify-center">
                   <svg className="w-8 h-8 text-financial-600 dark:text-financial-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,7 +169,7 @@ export default function Home() {
                     市場理解を深める
                   </span>
                 </div>
-                <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-4 group-hover:text-financial-600 dark:group-hover:text-financial-400 transition-colors tracking-tight">
+                <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-4 group-hover:text-financial-600 dark:group-hover:text-financial-400 transition-colors tracking-tight">
                   ファクトブック
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -192,7 +192,7 @@ export default function Home() {
 
           {/* アドホック分析カード */}
           <div className="group cursor-not-allowed">
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-600 opacity-60 hover:opacity-80 transition-all duration-300">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-xl p-4 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-600 opacity-60 hover:opacity-80 transition-all duration-300">
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto mb-6 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
                   <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,7 +204,7 @@ export default function Home() {
                     実践的投資戦略
                   </span>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-600 dark:text-gray-300 mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-4">
                   アドホック分析
                 </h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-4">
@@ -228,7 +228,7 @@ export default function Home() {
 
           {/* インタラクティブクエリカード */}
           <div className="group cursor-not-allowed">
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-600 opacity-60 hover:opacity-80 transition-all duration-300">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-xl p-4 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-600 opacity-60 hover:opacity-80 transition-all duration-300">
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto mb-6 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
                   <svg className="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -240,7 +240,7 @@ export default function Home() {
                     上級者向け
                   </span>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-600 dark:text-gray-300 mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-4">
                   インタラクティブクエリ
                 </h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-4">
@@ -277,7 +277,7 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+                <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white tracking-tight">
                   データについて
                 </h3>
               </div>
