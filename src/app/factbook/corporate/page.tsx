@@ -106,11 +106,58 @@ export default function CorporatePage() {
             <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
               企業情報について
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-12">
               企業情報セクションでは、上場企業の財務データをヒストグラム形式で可視化し、
               各財務指標の分布状況を財務諸表別に整理して提供しています。
               企業の財務分析や業界比較、投資判断の参考資料としてご活用ください。
             </p>
+
+            {/* データ定義セクション */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-gray-700 mb-8">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+                データ定義
+              </h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <div className="space-y-4">
+                  <div>
+                    <h5 className="text-sm font-bold text-financial-600 dark:text-financial-400 mb-2">データソース</h5>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Yahoo! Finance (yfinance)
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h5 className="text-sm font-bold text-financial-600 dark:text-financial-400 mb-2">対象期間</h5>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      現時点から過去4回分の年間決算情報
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <h5 className="text-sm font-bold text-financial-600 dark:text-financial-400 mb-2">対象企業</h5>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      東京証券取引所プライム市場上場企業（約1,600社）
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h5 className="text-sm font-bold text-financial-600 dark:text-financial-400 mb-2">分析項目</h5>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      25の財務指標（P/L：7項目、B/S：11項目、C/F：6項目）
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  ※ データは年間決算ベースで集計されており、企業の決算期の違いにより最新データの基準日は企業ごとに異なります。
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
