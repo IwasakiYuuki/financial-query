@@ -1,6 +1,16 @@
-'use client';
-
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'ファクトブック - 金融データ分析',
+  description: '企業情報、株式市場、為替・通貨、経済指標など幅広い金融データをヒストグラム形式で可視化。投資仮説構築のための包括的なデータ分析プラットフォーム。',
+  keywords: ['ファクトブック', '企業情報', '株式市場', '為替', '経済指標', '金融データ', '分析', 'ヒストグラム'],
+  openGraph: {
+    title: 'ファクトブック - 金融データ分析 | FinancialQuery',
+    description: '企業情報、株式市場、為替・通貨、経済指標など幅広い金融データをヒストグラム形式で可視化。',
+    url: 'https://financial-query.vercel.app/factbook',
+  },
+};
 
 export default function FactbookPage() {
   const categories = [
