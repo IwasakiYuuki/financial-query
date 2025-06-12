@@ -26,18 +26,21 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.svg',
+        url: 'https://financial-query.vercel.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'FinancialQuery - 財務データ分析プラットフォーム',
+        type: 'image/png',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'FinancialQuery - 財務データ分析プラットフォーム',
-    description: '上場企業の財務諸表データの分布分析を財務諸表別に可視化',
-    images: ['/og-image.svg'],
+    description: '上場企業の財務諸表データの分布分析を財務諸表別に可視化する分析プラットフォーム',
+    images: ['https://financial-query.vercel.app/og-image.png'],
+    creator: '@financialquery',
+    site: '@financialquery',
   },
   robots: {
     index: true,
