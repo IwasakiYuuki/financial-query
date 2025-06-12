@@ -74,20 +74,34 @@ export default function FactbookPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24">
-          <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">
-            ファクトブック
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
-            幅広い金融データの分布分析を分野別に可視化
-          </p>
-          <p className="text-sm text-financial-600 dark:text-financial-400 font-medium">
-            投資仮説構築のための包括的なデータ分析プラットフォーム
-          </p>
+      {/* ヒーローセクション */}
+      <section className="bg-gradient-to-br from-gray-50 via-white to-financial-50 dark:from-gray-900 dark:via-gray-800 dark:to-financial-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="w-16 h-16 bg-financial-100 dark:bg-financial-900 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-financial-600 dark:text-financial-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+                ファクトブック
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
+              幅広い金融データの分布分析を分野別に可視化
+            </p>
+            <p className="text-sm text-financial-600 dark:text-financial-400 font-medium">
+              投資仮説構築のための包括的なデータ分析プラットフォーム
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-7xl mx-auto">
+      {/* カテゴリ一覧セクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-7xl mx-auto">
           {categories.map((category, index) => (
             <div key={index} className={`group ${category.available ? '' : 'cursor-not-allowed'}`}>
               {category.available ? (
@@ -143,21 +157,129 @@ export default function FactbookPage() {
               )}
             </div>
           ))}
-        </div>
-
-        <div className="mt-16 sm:mt-20 lg:mt-24 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
-              ファクトブックについて
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-              ファクトブックでは、企業財務、株価、為替、経済指標など幅広い金融データをヒストグラム形式で可視化し、
-              各指標の分布状況を分野別に整理して提供しています。
-              データドリブンな投資仮説の構築、市場分析、資産配分の参考資料としてご活用ください。
-            </p>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ファクトブック活用法セクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                  ファクトブックの活用法
+                </h3>
+              </div>
+            </div>
+            
+            {/* プロセスフロー */}
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-8 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                {/* Step 1 */}
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-financial-100 dark:bg-financial-900 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-financial-600 dark:text-financial-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">1. データを吸収</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    分布を見て市場の<br />
+                    「常識」を頭に蓄積
+                  </p>
+                </div>
+                
+                {/* Arrow 1 */}
+                <div className="hidden md:flex items-center justify-center">
+                  <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </div>
+                
+                {/* Step 2 */}
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">2. 感覚を養う</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    「普通」と「異常」を<br />
+                    直感的に判断できる感覚
+                  </p>
+                </div>
+                
+                {/* Arrow 2 */}
+                <div className="hidden md:flex items-center justify-center">
+                  <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </div>
+                
+                {/* Step 3 */}
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">3. 質の高い仮説</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    蓄積された知識から<br />
+                    鋭い投資仮説を構築
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 具体例セクション */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Before */}
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mr-3">
+                    <svg className="w-4 h-4 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </div>
+                  <h4 className="text-lg font-bold text-red-800 dark:text-red-200">ファクトブック活用前</h4>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p className="text-red-700 dark:text-red-300">「この企業のROEは15%だ」</p>
+                  <p className="text-red-600 dark:text-red-400">→ それが高いのか低いのか判断できない</p>
+                  <p className="text-red-600 dark:text-red-400">→ 表面的な分析に留まる</p>
+                </div>
+              </div>
+
+              {/* After */}
+              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mr-3">
+                    <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h4 className="text-lg font-bold text-emerald-800 dark:text-emerald-200">ファクトブック活用後</h4>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p className="text-emerald-700 dark:text-emerald-300">「この企業のROEは15%だ」</p>
+                  <p className="text-emerald-600 dark:text-emerald-400">→ 上位20%に入る優秀な水準と瞬時に判断</p>
+                  <p className="text-emerald-600 dark:text-emerald-400">→ より深い洞察と仮説を構築</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 説明文 */}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,11 +1,26 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '@/lib/theme';
 
 // Plotlyを動的にインポート（SSR対応）
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
+const Plot = dynamic(() => import('react-plotly.js'), { 
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-96 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+      <div className="text-center">
+        <div className="inline-flex items-center gap-3 mb-3">
+          <div className="w-5 h-5 border-2 border-financial-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-gray-600 dark:text-gray-300 font-medium">グラフを読み込み中...</span>
+        </div>
+        <div className="w-48 h-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-financial-400 to-financial-500 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  )
+});
 
 interface HistogramData {
   bin: number;
@@ -24,6 +39,7 @@ interface PlotlyHistogramProps {
 
 export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxisMin, xAxisMax }: PlotlyHistogramProps) {
   const { theme } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
   // 90%範囲の自動計算（5%～95%パーセンタイル）
   const calculate90PercentileRange = (data: HistogramData[]) => {
     // 累積度数を計算
@@ -55,17 +71,17 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
   
   // X軸の範囲を決定（手動指定 > 90%自動範囲 > 全データ範囲の優先順位）
   const calculatedXAxisMin = xAxisMin !== undefined ? xAxisMin : 
-    (data.length > 0 ? minBin : Math.floor(minBin / binSize) * binSize);
+    (data.length > 0 ? Math.floor(autoRange.min / binSize) * binSize : Math.floor(minBin / binSize) * binSize);
   const calculatedXAxisMax = xAxisMax !== undefined ? xAxisMax : 
     (data.length > 0 ? Math.ceil((autoRange.max + binSize) / binSize) * binSize : Math.ceil((maxBin + binSize) / binSize) * binSize);
 
   // テーマに応じた色設定
   const isDark = theme === 'dark';
   const colors = {
-    bar: isDark ? 'rgba(147, 197, 253, 0.7)' : 'rgba(99, 102, 241, 0.7)',
-    barBorder: isDark ? 'rgba(147, 197, 253, 1)' : 'rgba(99, 102, 241, 1)',
-    hoverBg: isDark ? 'rgba(147, 197, 253, 0.9)' : 'rgba(99, 102, 241, 0.9)',
-    hoverBorder: isDark ? 'rgba(147, 197, 253, 1)' : 'rgba(99, 102, 241, 1)',
+    bar: isDark ? 'rgba(148, 163, 184, 0.8)' : 'rgba(100, 116, 139, 0.8)', // slate系メイン
+    barBorder: isDark ? 'rgba(203, 213, 225, 1)' : 'rgba(71, 85, 105, 1)', // slate系境界
+    hoverBg: isDark ? 'rgba(148, 163, 184, 0.95)' : 'rgba(100, 116, 139, 0.95)',
+    hoverBorder: isDark ? 'rgba(203, 213, 225, 1)' : 'rgba(71, 85, 105, 1)',
     text: isDark ? '#e5e7eb' : '#374151',
     grid: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
   };
@@ -134,7 +150,7 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
       type: 'scatter' as const,
       mode: 'lines' as const,
       line: {
-        color: isDark ? 'rgba(251, 191, 36, 1)' : 'rgba(245, 158, 11, 1)', // 黄色系
+        color: isDark ? 'rgba(251, 146, 60, 1)' : 'rgba(234, 88, 12, 1)', // オレンジ系
         width: 2,
       },
       name: '累積分布',
@@ -256,12 +272,27 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {isLoading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-3 mb-3">
+              <div className="w-5 h-5 border-2 border-financial-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-gray-600 dark:text-gray-300 font-medium">グラフを描画中...</span>
+            </div>
+            <div className="w-48 h-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-financial-400 to-financial-500 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      )}
       <Plot
         data={plotData}
         layout={layout}
         config={config}
         style={{ width: '100%', height: '400px' }}
+        onInitialized={() => setIsLoading(false)}
+        onUpdate={() => setIsLoading(false)}
       />
     </div>
   );

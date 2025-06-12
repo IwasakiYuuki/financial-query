@@ -5,29 +5,49 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24">
-          <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">
-            FinancialQuery
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
-            金融データの分布分析を多角的に可視化
-          </p>
-          <p className="text-sm text-financial-600 dark:text-financial-400 font-medium mb-8">
-            企業情報・株価・為替・指標など幅広い金融データでデータドリブンな投資判断をサポート
-          </p>
-        </div>
-
-        {/* 学習パスの可視化 */}
-        <div className="max-w-4xl mx-auto mb-16 sm:mb-20 lg:mb-24">
-          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-            <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">
-              投資スキル向上の3ステップ
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300">
-              基礎から応用まで、段階的に投資分析力を向上させていけます
+      {/* ヒーローセクション */}
+      <section className="bg-gradient-to-br from-gray-50 via-white to-financial-50 dark:from-gray-900 dark:via-gray-800 dark:to-financial-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-financial-100 dark:bg-financial-900 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-financial-600 dark:text-financial-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+              <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+                FinancialQuery
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
+              金融データの分布分析を多角的に可視化
+            </p>
+            <p className="text-sm text-financial-600 dark:text-financial-400 font-medium mb-8">
+              企業情報・株価・為替・指標など幅広い金融データでデータドリブンな投資判断をサポート
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* 学習パスセクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+                  投資スキル向上の3ステップ
+                </h2>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300">
+                基礎から応用まで、段階的に投資分析力を向上させていけます
+              </p>
+            </div>
           
           {/* デスクトップ版：横並び */}
           <div className="hidden md:flex items-center justify-center space-x-8">
@@ -109,10 +129,32 @@ export default function Home() {
                 <div className="text-sm text-gray-500 dark:text-gray-400">クエリ実行</div>
               </div>
             </div>
+            </div>
           </div>
         </div>
+      </section>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
+      {/* サービス一覧セクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 sm:mb-20 lg:mb-24">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                サービス一覧
+              </h2>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              投資判断を支援する3つの主要サービスを提供しています
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 lg:p-12 border border-gray-200 dark:border-gray-700 shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
           {/* ファクトブックカード */}
           <Link href="/factbook" className="group">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-financial-200 dark:hover:border-financial-700 transform hover:-translate-y-1">
@@ -219,22 +261,36 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="mt-16 sm:mt-20 lg:mt-24 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
-              データについて
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-              このプラットフォームは、個人投資家の皆様が質の高い投資判断を行えるよう、
-              企業財務、株価、為替、経済指標など幅広い金融データをヒストグラム形式で可視化し、
-              各指標の分布状況を分野別に整理して提供しています。
-              データドリブンな投資仮説の構築、市場分析、資産配分の参考資料としてご活用ください。
-            </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* 説明セクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-800">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+                  データについて
+                </h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                このプラットフォームは、個人投資家の皆様が質の高い投資判断を行えるよう、
+                企業財務、株価、為替、経済指標など幅広い金融データをヒストグラム形式で可視化し、
+                各指標の分布状況を分野別に整理して提供しています。
+                データドリブンな投資仮説の構築、市場分析、資産配分の参考資料としてご活用ください。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
