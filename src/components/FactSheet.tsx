@@ -72,16 +72,20 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-200 overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 overflow-hidden mb-8">
       {/* 装飾的なトップボーダー */}
-      <div className="h-0.5 bg-gradient-to-r from-slate-400 to-slate-600 dark:from-slate-500 dark:to-slate-400"></div>
+      <div className="h-1 bg-gradient-to-r from-financial-400 via-financial-500 to-financial-600 dark:from-financial-500 dark:via-financial-400 dark:to-financial-500"></div>
       
       {/* ヘッダー */}
       <div className="bg-gray-50 dark:bg-gray-700 px-6 py-5 border-b border-gray-100 dark:border-gray-600">
         <div className="flex justify-between items-start">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-2 h-2 bg-slate-500 dark:bg-slate-400 rounded-full"></div>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 {title}
               </h2>
@@ -89,53 +93,64 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
             <p className="text-gray-600 dark:text-gray-300 text-sm">{description}</p>
           </div>
           <div className="text-right">
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
               <span className="bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-2 py-1 rounded border dark:border-slate-500">
-                最新
+                2025年6月更新
               </span>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{new Date().toLocaleDateString('ja-JP')}</p>
           </div>
         </div>
       </div>
 
       <div className="p-6">
         {/* 統計量サマリー */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-          <div className="bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
-            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">総数</p>
-            <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{stats.totalCount.toLocaleString()}</p>
-          </div>
-          
-          <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 p-3 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors">
-            <p className="text-xs font-medium text-blue-600 dark:text-blue-300 mb-1">平均値</p>
-            <p className="text-lg font-bold text-blue-900 dark:text-blue-100">{stats.mean.toLocaleString()}</p>
-          </div>
-          
-          <div className="bg-emerald-50 dark:bg-emerald-900 border border-emerald-200 dark:border-emerald-700 p-3 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-800 transition-colors">
-            <p className="text-xs font-medium text-emerald-600 dark:text-emerald-300 mb-1">中央値</p>
-            <p className="text-lg font-bold text-emerald-900 dark:text-emerald-100">{stats.median.toLocaleString()}</p>
-          </div>
-          
-          <div className="bg-amber-50 dark:bg-amber-900 border border-amber-200 dark:border-amber-700 p-3 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-800 transition-colors">
-            <p className="text-xs font-medium text-amber-600 dark:text-amber-300 mb-1">最小値</p>
-            <p className="text-lg font-bold text-amber-900 dark:text-amber-100">{stats.min.toLocaleString()}</p>
-          </div>
-          
-          <div className="bg-rose-50 dark:bg-rose-900 border border-rose-200 dark:border-rose-700 p-3 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-800 transition-colors">
-            <p className="text-xs font-medium text-rose-600 dark:text-rose-300 mb-1">最大値</p>
-            <p className="text-lg font-bold text-rose-900 dark:text-rose-100">{stats.max.toLocaleString()}</p>
-          </div>
-          
-          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-            <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">レンジ</p>
-            <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{stats.range.toLocaleString()}</p>
+        <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            <div className="text-center">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">総数</p>
+              <div className="flex items-baseline justify-center">
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalCount.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">社</span>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">平均値</p>
+              <div className="flex items-baseline justify-center">
+                <p className="text-2xl font-bold text-financial-600 dark:text-financial-400">{stats.mean.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">中央値</p>
+              <div className="flex items-baseline justify-center">
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.median.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">最小値</p>
+              <div className="flex items-baseline justify-center">
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.min.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">最大値</p>
+              <div className="flex items-baseline justify-center">
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.max.toLocaleString()}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">{unit}</span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* グラフ */}
-        <div className="mb-6 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+        <div className="mb-6 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 min-h-[400px]">
           <PlotlyHistogram 
             data={scaledData} 
             title={title} 
@@ -225,6 +240,9 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
           </div>
         </div>
       </div>
+      
+      {/* 底部の装飾ボーダー */}
+      <div className="h-0.5 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-600 dark:via-gray-500 dark:to-gray-600"></div>
     </div>
   );
 }

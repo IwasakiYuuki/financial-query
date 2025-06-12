@@ -5,20 +5,35 @@ import Link from 'next/link';
 export default function CorporatePage() {
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        <div className="text-center mb-16 sm:mb-20 lg:mb-24">
-          <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">
-            企業情報
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
-            上場企業の財務諸表データの分布分析を財務諸表別に可視化
-          </p>
-          <p className="text-sm text-financial-600 dark:text-financial-400 font-medium">
-            企業の財務分析や業界比較、投資判断の参考資料
-          </p>
+      {/* ヒーローセクション */}
+      <section className="bg-gradient-to-br from-gray-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-emerald-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+                企業情報
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
+              上場企業の財務諸表データの分布分析を財務諸表別に可視化
+            </p>
+            <p className="text-sm text-financial-600 dark:text-financial-400 font-medium">
+              企業の財務分析や業界比較、投資判断の参考資料
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
+      {/* 財務諸表カテゴリセクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-8 lg:p-12 border border-gray-200 dark:border-gray-700 shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
           {/* 損益計算書カード */}
           <Link href="/factbook/income-statement" className="group">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-financial-200 dark:hover:border-financial-700 transform hover:-translate-y-1">
@@ -99,24 +114,47 @@ export default function CorporatePage() {
               </div>
             </div>
           </Link>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div className="mt-16 sm:mt-20 lg:mt-24 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
-              企業情報について
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-12">
+      {/* 説明・データ定義セクション */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+                企業情報について
+              </h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-12 max-w-4xl mx-auto">
               企業情報セクションでは、上場企業の財務データをヒストグラム形式で可視化し、
               各財務指標の分布状況を財務諸表別に整理して提供しています。
               企業の財務分析や業界比較、投資判断の参考資料としてご活用ください。
             </p>
+          </div>
 
-            {/* データ定義セクション */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-gray-700 mb-8">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
-                データ定義
-              </h4>
+          {/* データ定義セクション */}
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+              <div className="text-center mb-6">
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                    <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    データ定義
+                  </h4>
+                </div>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                 <div className="space-y-4">
@@ -160,7 +198,7 @@ export default function CorporatePage() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
