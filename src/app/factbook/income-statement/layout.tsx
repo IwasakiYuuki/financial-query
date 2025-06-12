@@ -8,6 +8,13 @@ export const metadata: Metadata = {
     title: '損益計算書分析 - P/L財務指標 | FinancialQuery',
     description: '上場企業の損益計算書7項目をヒストグラムで可視化。企業の収益性分析と投資判断をサポート。',
     url: 'https://financial-query.vercel.app/factbook/income-statement',
+    images: ['/og-image.svg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '損益計算書分析 - P/L財務指標 | FinancialQuery',
+    description: '上場企業の損益計算書7項目をヒストグラムで可視化。企業の収益性分析と投資判断をサポート。',
+    images: ['/og-image.svg'],
   },
 };
 

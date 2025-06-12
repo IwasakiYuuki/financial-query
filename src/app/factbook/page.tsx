@@ -9,6 +9,13 @@ export const metadata: Metadata = {
     title: 'ファクトブック - 金融データ分析 | FinancialQuery',
     description: '企業情報、株式市場、為替・通貨、経済指標など幅広い金融データをヒストグラム形式で可視化。',
     url: 'https://financial-query.vercel.app/factbook',
+    images: ['/og-image.svg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ファクトブック - 金融データ分析 | FinancialQuery',
+    description: '企業情報、株式市場、為替・通貨、経済指標など幅広い金融データをヒストグラム形式で可視化。',
+    images: ['/og-image.svg'],
   },
 };
 
