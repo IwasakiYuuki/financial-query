@@ -28,9 +28,9 @@ FinancialQuery
 
 - **Frontend**: Next.js 15 (App Router) + TypeScript
 - **UI/CSS**: Tailwind CSS v3.4
-- **Data Visualization**: Plotly.js + react-plotly.js (メイン), Chart.js + react-chartjs-2 (サブ)
+- **Data Visualization**: Plotly.js + react-plotly.js
 - **Deployment**: Vercel (予定)
-- **Data Format**: CSV files in public/data/ (bin_start, bin_end, frequency形式)
+- **Data Format**: CSV files in public/data/ (hist.csv, stat.csv形式)
 - **Linting**: ESLint 9.28.0 with Next.js TypeScript rules
 
 ## Commands
@@ -54,22 +54,34 @@ src/
 │   │   └── cash-flow/          # キャッシュフロー分析ページ
 │   └── globals.css             # グローバルスタイル（Tailwind imports）
 ├── components/
-│   ├── Header.tsx              # 共通ヘッダー（ナビゲーション、ドロップダウン）
-│   ├── FactSheet.tsx           # メインファクトブックカードコンポーネント
-│   ├── PlotlyHistogram.tsx     # Plotly.jsヒストグラムコンポーネント
-│   └── HistogramChart.tsx      # Chart.jsヒストグラムコンポーネント（レガシー）
+│   ├── ui/                     # 基本UIコンポーネント
+│   │   ├── Header.tsx          # 共通ヘッダー（ナビゲーション、ドロップダウン）
+│   │   └── index.ts
+│   ├── charts/                 # グラフ関連コンポーネント
+│   │   ├── PlotlyHistogram.tsx # Plotly.jsヒストグラムコンポーネント
+│   │   └── index.ts
+│   ├── factbook/               # ファクトブック専用コンポーネント
+│   │   ├── FactSheet.tsx       # メインファクトブックカードコンポーネント
+│   │   └── index.ts
+│   ├── seo/                    # SEO関連コンポーネント
+│   │   ├── StructuredData.tsx  # 構造化データコンポーネント
+│   │   └── index.ts
+│   └── index.ts                # 統合エクスポート
 └── lib/
     ├── csvUtils.ts             # CSV読み込みユーティリティ（新形式対応）
-    └── dummyData.ts            # ダミーデータ生成（レガシー）
+    └── theme.tsx               # テーマ管理
 
 public/
-└── data/                       # 25個の財務指標CSVファイル
-    ├── total_revenue.csv       # 総売上高
-    ├── operating_income.csv    # 営業利益
-    ├── net_income.csv          # 純利益
-    ├── total_assets.csv        # 総資産
-    ├── operating_cash_flow.csv # 営業CF
-    └── ... (他21個のファイル)
+└── data/
+    └── factbook/               # 25個の財務指標ディレクトリ
+        ├── total_revenue/      # 総売上高
+        │   ├── hist.csv        # ヒストグラムデータ
+        │   └── stat.csv        # 統計データ
+        ├── operating_income/   # 営業利益
+        ├── net_income/         # 純利益
+        ├── total_assets/       # 総資産
+        ├── operating_cash_flow/ # 営業CF
+        └── ... (他20個のディレクトリ)
 ```
 
 ## Component Structure
@@ -99,46 +111,77 @@ public/
 - `scale?: number` - 単位変換スケール（例：億円=100000000）
 
 ### PlotlyHistogram.tsx
-Plotly.jsを使用した真のヒストグラムコンポーネント：
+Plotly.jsを使用した高機能ヒストグラムコンポーネント：
 - 連続的な棒グラフ（隙間なし）
-- 動的なX軸範囲設定（データ範囲に最適化）
-- カスタマイズ可能なビンサイズ
+- 自動5%/95%パーセンタイルトリミング
+- 累積分布表示（第2軸）
+- 連続的な累積分布線（空白区間補間）
+- ダイナミックテーマ対応
 - ホバー効果とツールチップ
 
 **Props:**
 - `data: HistogramData[]` - スケール変換済みデータ
 - `title: string`
+- `unit: string` - 単位表示
 - `binSize?: number` - スケール変換済みビンサイズ
-- `xAxisMin?: number` - スケール変換済み最小値
-- `xAxisMax?: number` - スケール変換済み最大値
+- `xAxisMin?: number` - 手動X軸最小値（任意）
+- `xAxisMax?: number` - 手動X軸最大値（任意）
+
+**主要機能:**
+- 個別データ展開による精密パーセンタイル計算
+- NaN対策済みのビン幅自動検出
+- 空白区間を補間した滑らかな累積分布
 
 ## Data Structure
 
 ### HistogramData Interface
 ```typescript
 interface HistogramData {
-  bin: number;    // ビンの開始値（円単位）
-  freq: number;   // 頻度
+  bin: number;      // ビンの開始値（円単位）
+  freq: number;     // 頻度
+  binEnd?: number;  // ビンの終了値（新形式CSV）
+}
+```
+
+### StatisticsData Interface
+```typescript
+interface StatisticsData {
+  num: number;    // サンプル数
+  avg: number;    // 平均値
+  med: number;    // 中央値
+  min: number;    // 最小値
+  max: number;    // 最大値
 }
 ```
 
 ### CSV Data Format
-**元データ形式** (public/data/*.csv):
+**新ディレクトリ構造** (public/data/factbook/{metric}/):
+- `hist.csv` - ヒストグラムデータ (bin_start, bin_end, frequency)
+- `stat.csv` - 統計データ (num, avg, med, min, max)
+
+**ヒストグラムCSV形式**:
 ```csv
 bin_start,bin_end,frequency
-0,10000000000,107
-10000000000,20000000000,196
+-431500000000,-431400000000,1
+-354900000000,-354800000000,1
+0,100000000,3
 ...
 ```
 
-**変換後データ形式** (FactSheet内部):
+**統計CSV形式**:
+```csv
+num,avg,med,min,max
+1143,49877312032.95669,9838000000.0,-431428000000.0,5352935000000.0
+```
+
+**変換後データ形式** (csvUtils.ts):
 ```typescript
-// csvUtils.tsで自動変換
-[
-  { bin: 0, freq: 107 },           // bin_start → bin
-  { bin: 10000000000, freq: 196 }, // bin_start → bin
-  ...
-]
+// bin_start/bin_endの正規化処理
+{
+  bin: Math.min(binStart, binEnd),    // 常に小さい値
+  freq: frequency,
+  binEnd: Math.max(binStart, binEnd)  // 常に大きい値
+}
 ```
 
 ### 現在の財務指標（25項目）
@@ -196,12 +239,27 @@ CSVデータは全て円単位で統一し、表示側で適切な単位に変�
 
 ## Development Notes
 
+### 技術的詳細
 - Plotly.jsは動的インポート（SSR対応）で読み込み
 - Tailwind CSS v3.4を使用（v4との互換性問題により）
-- 各ファクトシートは独立したカードとして配置可能
-- X軸範囲（xAxisMin/xAxisMax）とビンサイズは各データの特性に合わせて調整可能
-- CSVファイル名のタイポ修正済み（net_imcome.csv → net_income.csv）
 - eslint.config.js設定済み（CommonJS形式でNext.js TypeScriptルール適用）
+
+### 修正済み問題
+1. **横軸方向の修正** - bin_start > bin_endデータの正規化処理
+2. **5%パーセンタイルトリミング** - 個別データ展開による精密計算
+3. **NaN問題の解決** - actualBinWidth計算の安定化
+4. **累積分布の連続性** - 空白区間補間による滑らかな折れ線
+5. **コンポーネント整理** - 役割別ディレクトリ構造とindex.ts管理
+
+### データ処理の改良
+- 集約データでのパーセンタイル計算限界を個別展開で解決
+- ビン幅自動検出でのNaN対策（フィルタリング追加）
+- 累積分布でのデータ欠損区間を補間処理で連続化
+
+### リファクタリング完了事項
+- レガシーファイル削除（dummyData.ts, HistogramChart.tsx）
+- コンポーネントの役割別分割（ui/, charts/, factbook/, seo/）
+- import文の整理（統合index.tsによる綺麗なインポート）
 
 ## Page Structure
 
