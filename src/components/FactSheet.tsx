@@ -19,9 +19,11 @@ interface FactSheetProps {
   xAxisMax?: number;
   scale?: number; // 単位変換のスケール（例：1億円なら100000000）
   customFacts?: string[]; // カスタムFactsリスト
+  customFindings?: string[]; // カスタムFindingsリスト
+  customReferences?: string[]; // カスタムReferencesリスト
 }
 
-export default function FactSheet({ data, title, description, unit, binSize, xAxisMin, xAxisMax, scale = 1, customFacts }: FactSheetProps) {
+export default function FactSheet({ data, title, description, unit, binSize, xAxisMin, xAxisMax, scale = 1, customFacts, customFindings, customReferences }: FactSheetProps) {
   // データをスケール変換
   const scaledData = data.map(item => ({
     bin: item.bin / scale,
@@ -208,22 +210,33 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
               Findings
             </h3>
             <ul className="space-y-2 text-xs text-blue-700 dark:text-blue-300">
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>低水準の企業が最多</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>平均値 &gt; 中央値（右歪み）</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>ロングテール分布</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                <span>幅広い分布を示す</span>
-              </li>
+              {customFindings ? (
+                customFindings.map((finding, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>{finding}</span>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>低水準の企業が最多</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>平均値 &gt; 中央値（右歪み）</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>ロングテール分布</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-blue-400 dark:bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span>幅広い分布を示す</span>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -233,22 +246,33 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
               <div className="w-1 h-4 bg-gray-500 dark:bg-gray-400 rounded-full mr-2"></div>
               References
             </h3>
-            <div className="space-y-3 text-xs">
-              <div>
-                <div className="font-medium text-gray-800 dark:text-gray-200 mb-1">データソース</div>
-                <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                  <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full"></div>
-                  内部分析基盤
+            {customReferences ? (
+              <ul className="space-y-2 text-xs text-gray-700 dark:text-gray-300">
+                {customReferences.map((reference, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span dangerouslySetInnerHTML={{ __html: reference }}></span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="space-y-3 text-xs">
+                <div>
+                  <div className="font-medium text-gray-800 dark:text-gray-200 mb-1">データソース</div>
+                  <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                    <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full"></div>
+                    内部分析基盤
+                  </div>
+                </div>
+                <div>
+                  <div className="font-medium text-gray-800 dark:text-gray-200 mb-1">更新頻度</div>
+                  <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                    <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full"></div>
+                    四半期毎
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="font-medium text-gray-800 dark:text-gray-200 mb-1">更新頻度</div>
-                <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                  <div className="w-1 h-1 bg-gray-400 dark:bg-gray-500 rounded-full"></div>
-                  四半期毎
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
