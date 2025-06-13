@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import PlotlyHistogram from './PlotlyHistogram';
-import { HistogramData, StatisticsData, loadFactbookData } from '../lib/csvUtils';
+import PlotlyHistogram from '../charts/PlotlyHistogram';
+import { HistogramData, StatisticsData, loadFactbookData } from '../../lib/csvUtils';
 
 interface FactSheetProps {
   columnName: string; // CSVファイル名（拡張子なし）

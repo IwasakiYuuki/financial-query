@@ -1,6 +1,6 @@
 'use client';
 
-import FactSheet from '@/components/FactSheet';
+import { FactSheet } from '@/components';
 
 export default function CashFlowPage() {
 
