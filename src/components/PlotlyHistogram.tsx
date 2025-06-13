@@ -40,24 +40,65 @@ interface PlotlyHistogramProps {
 export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxisMin, xAxisMax }: PlotlyHistogramProps) {
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
+  
+  // ビンの実際の幅を計算（データから自動検出）
+  const calculateActualBinWidth = (data: HistogramData[]) => {
+    if (data.length === 0) return binSize;
+    
+    // データが区間終了値を持っている場合はそれを使用
+    if (data[0].binEnd !== undefined) {
+      const widths = data.map(item => item.binEnd! - item.bin).filter(w => !isNaN(w) && w > 0);
+      
+      
+      if (widths.length > 0) {
+        return Math.min(...widths);
+      }
+    }
+    
+    // binEndがない場合は、連続するbinの差から推定
+    if (data.length > 1) {
+      const sortedData = [...data].sort((a, b) => a.bin - b.bin);
+      const diffs = [];
+      for (let i = 1; i < sortedData.length; i++) {
+        diffs.push(sortedData[i].bin - sortedData[i-1].bin);
+      }
+      if (diffs.length > 0) {
+        return Math.min(...diffs);
+      }
+    }
+    
+    return binSize;
+  };
+
+  const actualBinWidth = calculateActualBinWidth(data);
+  
+  
   // 90%範囲の自動計算（5%～95%パーセンタイル）
+  // 集約されたデータではなく、個々のビン区間を使って正確なパーセンタイル計算
   const calculate90PercentileRange = (data: HistogramData[]) => {
-    // 累積度数を計算
-    const sortedData = [...data].sort((a, b) => a.bin - b.bin);
-    const totalCount = sortedData.reduce((sum, item) => sum + item.freq, 0);
-    let cumulative = 0;
+    // 全データポイントを展開（各ビンの区間内で均等分布と仮定）
+    const expandedValues: number[] = [];
     
-    const cumulativeData = sortedData.map(item => {
-      cumulative += item.freq;
-      return {
-        bin: item.bin,
-        cumulativePercent: (cumulative / totalCount) * 100
-      };
-    });
+    for (const item of data) {
+      // 各ビンの中央値を頻度分だけ追加
+      const binCenter = item.binEnd ? (item.bin + item.binEnd) / 2 : item.bin;
+      for (let i = 0; i < item.freq; i++) {
+        expandedValues.push(binCenter);
+      }
+    }
     
-    // 5%パーセンタイルと95%パーセンタイルを見つける
-    const percentile5 = cumulativeData.find(item => item.cumulativePercent >= 5)?.bin ?? sortedData[0].bin;
-    const percentile95 = cumulativeData.find(item => item.cumulativePercent >= 95)?.bin ?? sortedData[sortedData.length - 1].bin;
+    // ソート
+    expandedValues.sort((a, b) => a - b);
+    
+    const totalCount = expandedValues.length;
+    
+    // 5%パーセンタイルと95%パーセンタイルのインデックス計算
+    const index5 = Math.floor(totalCount * 0.05);
+    const index95 = Math.floor(totalCount * 0.95);
+    
+    const percentile5 = expandedValues[index5] ?? expandedValues[0];
+    const percentile95 = expandedValues[index95] ?? expandedValues[totalCount - 1];
+    
     
     return { min: percentile5, max: percentile95 };
   };
@@ -69,11 +110,16 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
   // 90%範囲を計算
   const autoRange = calculate90PercentileRange(data);
   
-  // X軸の範囲を決定（手動指定 > 90%自動範囲 > 全データ範囲の優先順位）
-  const calculatedXAxisMin = xAxisMin !== undefined ? xAxisMin : 
-    (data.length > 0 ? Math.floor(autoRange.min / binSize) * binSize : Math.floor(minBin / binSize) * binSize);
-  const calculatedXAxisMax = xAxisMax !== undefined ? xAxisMax : 
-    (data.length > 0 ? Math.ceil((autoRange.max + binSize) / binSize) * binSize : Math.ceil((maxBin + binSize) / binSize) * binSize);
+  // X軸の範囲を決定（手動指定がない場合は90%範囲を使用）
+  const tempXAxisMin = xAxisMin !== undefined ? xAxisMin : 
+    (data.length > 0 ? Math.floor(autoRange.min / actualBinWidth) * actualBinWidth : Math.floor(minBin / actualBinWidth) * actualBinWidth);
+  const tempXAxisMax = xAxisMax !== undefined ? xAxisMax : 
+    (data.length > 0 ? Math.ceil((autoRange.max + actualBinWidth) / actualBinWidth) * actualBinWidth : Math.ceil((maxBin + actualBinWidth) / actualBinWidth) * actualBinWidth);
+  
+  // 必ずMin < Maxになるように調整
+  const calculatedXAxisMin = Math.min(tempXAxisMin, tempXAxisMax);
+  const calculatedXAxisMax = Math.max(tempXAxisMin, tempXAxisMax);
+
 
   // テーマに応じた色設定
   const isDark = theme === 'dark';
@@ -86,40 +132,51 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
     grid: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
   };
 
-  // 累積分布データを計算
-  const calculateCumulativeData = (data: HistogramData[]) => {
+  // 累積分布データを計算（連続的な線を描画するため、空白区間も補間）
+  const calculateCumulativeData = (data: HistogramData[], xMin: number, xMax: number, binWidth: number) => {
     const sortedData = [...data].sort((a, b) => a.bin - b.bin);
     const totalCount = sortedData.reduce((sum, item) => sum + item.freq, 0);
+    
+    // データをマップに変換（高速検索用）
+    const dataMap = new Map<number, number>();
+    for (const item of sortedData) {
+      dataMap.set(item.bin, item.freq);
+    }
+    
+    // X軸の表示範囲内で連続的な累積分布を作成
+    const result = [];
     let cumulative = 0;
     
-    return sortedData.map(item => {
-      cumulative += item.freq;
-      const binEnd = item.binEnd ?? (item.bin + binSize);
-      return {
-        x: binEnd, // 正確な区間終了点（X未満の累積を表現）
-        y: (cumulative / totalCount) * 100, // パーセンテージ
-        binStart: item.bin, // ホバー用の区間開始値
-        binEnd: binEnd // ホバー用の区間終了値
-      };
-    });
+    // 最小値から最大値まで、ビン幅刻みで累積値を計算
+    for (let x = Math.floor(xMin / binWidth) * binWidth; x <= xMax; x += binWidth) {
+      const freq = dataMap.get(x) || 0;
+      cumulative += freq;
+      
+      result.push({
+        x: x + binWidth, // 区間終了点
+        y: (cumulative / totalCount) * 100,
+        binStart: x,
+        binEnd: x + binWidth
+      });
+    }
+    
+    return result;
   };
 
-  const cumulativeData = calculateCumulativeData(data);
+  const cumulativeData = calculateCumulativeData(data, calculatedXAxisMin, calculatedXAxisMax, actualBinWidth);
 
-
-  // ヒストグラム用のデータを準備
+  // ヒストグラム用のデータを準備（必ずソート）
+  const sortedData = [...data].sort((a, b) => a.bin - b.bin);
+  
   const plotData = [
     {
-      x: data.map(item => {
-        const binEnd = item.binEnd ?? (item.bin + binSize);
+      x: sortedData.map(item => {
+        const binEnd = item.binEnd ?? (item.bin + actualBinWidth);
         return (item.bin + binEnd) / 2; // 区間の中央に配置
       }),
-      y: data.map(item => item.freq),
+      y: sortedData.map(item => item.freq),
       type: 'bar' as const,
-      width: data.map(item => {
-        const binEnd = item.binEnd ?? (item.bin + binSize);
-        return binEnd - item.bin; // 実際の区間幅を使用
-      }),
+      width: actualBinWidth * 0.95, // 実際のビン幅の95%でバーを表示（わずかな隙間）
       marker: {
         color: colors.bar,
         line: {
@@ -128,8 +185,8 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
         },
       },
       hovertemplate: '<b>区間:</b> %{customdata[0]:,}以上 %{customdata[1]:,}未満<br><b>頻度:</b> %{y:,}件<extra></extra>',
-      customdata: data.map(item => {
-        const binEnd = item.binEnd ?? (item.bin + binSize);
+      customdata: sortedData.map(item => {
+        const binEnd = item.binEnd ?? (item.bin + actualBinWidth);
         return [item.bin, binEnd]; // [開始値, 終了値]の配列
       }),
       hoverlabel: {
@@ -177,7 +234,7 @@ export default function PlotlyHistogram({ data, title, unit, binSize = 500, xAxi
       },
       tickformat: ',',
       range: [calculatedXAxisMin, calculatedXAxisMax],
-      dtick: Math.max(binSize * 2, Math.ceil((calculatedXAxisMax - calculatedXAxisMin) / 10)), // ラベル数を減らして重なりを防ぐ
+      dtick: Math.max(actualBinWidth * 2, Math.ceil((calculatedXAxisMax - calculatedXAxisMin) / 10)), // ラベル数を減らして重なりを防ぐ
       tick0: calculatedXAxisMin,
       showgrid: true,
       gridcolor: colors.grid,

@@ -1,16 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PlotlyHistogram from './PlotlyHistogram';
-
-interface HistogramData {
-  bin: number;
-  freq: number;
-  binEnd?: number; // 区間終了値（新形式CSVの場合）
-}
+import { HistogramData, StatisticsData, loadFactbookData } from '../lib/csvUtils';
 
 interface FactSheetProps {
-  data: HistogramData[];
+  columnName: string; // CSVファイル名（拡張子なし）
   title: string;
   description: string;
   unit: string;
@@ -23,7 +18,52 @@ interface FactSheetProps {
   customReferences?: string[]; // カスタムReferencesリスト
 }
 
-export default function FactSheet({ data, title, description, unit, binSize, xAxisMin, xAxisMax, scale = 1, customFacts, customFindings, customReferences }: FactSheetProps) {
+export default function FactSheet({ columnName, title, description, unit, binSize, xAxisMin, xAxisMax, scale = 1, customFacts, customFindings, customReferences }: FactSheetProps) {
+  const [data, setData] = useState<HistogramData[]>([]);
+  const [statistics, setStatistics] = useState<StatisticsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const factbookData = await loadFactbookData(columnName, binSize);
+        setData(factbookData.histogram);
+        setStatistics(factbookData.statistics);
+        setError(null);
+      } catch (err) {
+        setError(`データの読み込みに失敗しました: ${err}`);
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [columnName]);
+
+  if (loading) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-gray-200 dark:border-gray-700 p-8 mb-8">
+        <div className="flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-financial-500"></div>
+          <span className="ml-3 text-gray-600 dark:text-gray-300">データを読み込み中...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !statistics) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border-2 border-red-200 dark:border-red-700 p-8 mb-8">
+        <div className="text-center text-red-600 dark:text-red-400">
+          <p>{error || "データが見つかりません"}</p>
+        </div>
+      </div>
+    );
+  }
+
   // データをスケール変換
   const scaledData = data.map(item => ({
     bin: item.bin / scale,
@@ -31,47 +71,14 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
     binEnd: item.binEnd ? item.binEnd / scale : undefined
   }));
 
-  // 統計量の計算（元のデータで計算してからスケール変換）
-  const calculateStats = (data: HistogramData[]) => {
-    const totalCount = data.reduce((sum, item) => sum + item.freq, 0);
-    const weightedSum = data.reduce((sum, item) => sum + (item.bin * item.freq), 0);
-    const mean = weightedSum / totalCount;
-    
-    const min = data[0]?.bin || 0;
-    const max = data[data.length - 1]?.bin || 0;
-    
-    // 中央値の近似計算
-    const medianIndex = Math.floor(totalCount / 2);
-    let cumulative = 0;
-    let median = 0;
-    for (const item of data) {
-      cumulative += item.freq;
-      if (cumulative >= medianIndex) {
-        median = item.bin;
-        break;
-      }
-    }
-
-    return {
-      totalCount,
-      mean: Math.round(mean),
-      median,
-      min,
-      max,
-      range: max - min,
-    };
-  };
-
-  const rawStats = calculateStats(data);
-  
   // 統計量をスケール変換
   const stats = {
-    totalCount: rawStats.totalCount,
-    mean: rawStats.mean / scale,
-    median: rawStats.median / scale,
-    min: rawStats.min / scale,
-    max: rawStats.max / scale,
-    range: rawStats.range / scale
+    totalCount: statistics.num,
+    mean: Math.round(statistics.avg / scale),
+    median: Math.round(statistics.med / scale),
+    min: Math.round(statistics.min / scale),
+    max: Math.round(statistics.max / scale),
+    range: Math.round((statistics.max - statistics.min) / scale)
   };
 
   return (
@@ -196,7 +203,7 @@ export default function FactSheet({ data, title, description, unit, binSize, xAx
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-1 h-1 bg-slate-400 dark:bg-slate-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span>ビン: {binSize.toLocaleString()}{unit}単位</span>
+                    <span>ビン: {(binSize / scale).toLocaleString()}{unit}単位</span>
                   </li>
                 </>
               )}

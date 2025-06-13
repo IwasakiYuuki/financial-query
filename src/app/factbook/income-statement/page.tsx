@@ -1,58 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import FactSheet from '@/components/FactSheet';
-import { HistogramData, loadCSVFromFile } from '@/lib/csvUtils';
 
 export default function IncomeStatementPage() {
-  const [revenueData, setRevenueData] = useState<HistogramData[]>([]);
-  const [grossProfitData, setGrossProfitData] = useState<HistogramData[]>([]);
-  const [operatingIncomeData, setOperatingIncomeData] = useState<HistogramData[]>([]);
-  const [pretaxIncomeData, setPretaxIncomeData] = useState<HistogramData[]>([]);
-  const [netIncomeData, setNetIncomeData] = useState<HistogramData[]>([]);
-  const [ebitdaData, setEbitdaData] = useState<HistogramData[]>([]);
-  const [dilutedEpsData, setDilutedEpsData] = useState<HistogramData[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [revenue, grossProfit, operatingIncome, pretaxIncome, netIncome, ebitda, dilutedEps] = await Promise.all([
-          loadCSVFromFile('/data/total_revenue.csv'),
-          loadCSVFromFile('/data/gross_profit.csv'),
-          loadCSVFromFile('/data/operating_income.csv'),
-          loadCSVFromFile('/data/pretax_income.csv'),
-          loadCSVFromFile('/data/net_income.csv'),
-          loadCSVFromFile('/data/ebitda.csv'),
-          loadCSVFromFile('/data/diluted_eps.csv'),
-        ]);
-
-        setRevenueData(revenue);
-        setGrossProfitData(grossProfit);
-        setOperatingIncomeData(operatingIncome);
-        setPretaxIncomeData(pretaxIncome);
-        setNetIncomeData(netIncome);
-        setEbitdaData(ebitda);
-        setDilutedEpsData(dilutedEps);
-      } catch (error) {
-        console.error('データの読み込みに失敗しました:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex items-center justify-center">
-          <div className="text-gray-600 dark:text-gray-300">データを読み込み中...</div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen">
@@ -98,7 +48,7 @@ export default function IncomeStatementPage() {
         {/* データグリッド */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           <FactSheet
-            data={revenueData}
+            columnName="total_revenue"
             title="総売上高"
             description="企業の営業活動による総収入額の分布"
             unit="億円"
@@ -125,12 +75,11 @@ export default function IncomeStatementPage() {
           />
 
           <FactSheet
-            data={grossProfitData}
+            columnName="gross_profit"
             title="総利益"
             description="売上高から売上原価を差し引いた利益の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMin={-30000000000}
             scale={100000000}
             customFacts={[
               "最小値-2800億円で総利益マイナスの企業が存在",
@@ -152,12 +101,11 @@ export default function IncomeStatementPage() {
           />
 
           <FactSheet
-            data={operatingIncomeData}
+            columnName="operating_income"
             title="営業利益"
             description="本業の営業活動による利益の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMin={-30000000000}
             scale={100000000}
             customFacts={[
               "0億円未満の企業が全体の約5%を占める",
@@ -179,12 +127,11 @@ export default function IncomeStatementPage() {
           />
 
           <FactSheet
-            data={pretaxIncomeData}
+            columnName="pretax_income"
             title="税引前利益"
             description="法人税等を支払う前の利益の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMin={-30000000000}
             scale={100000000}
             customFacts={[
               "0億円未満の企業が全体の約5%を占める",
@@ -206,12 +153,11 @@ export default function IncomeStatementPage() {
           />
 
           <FactSheet
-            data={netIncomeData}
+            columnName="net_income"
             title="純利益"
             description="全ての収益・費用を差し引いた最終利益の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMin={-30000000000}
             scale={100000000}
             customFacts={[
               "6割以上の企業が100億円未満の純利益",
@@ -232,12 +178,11 @@ export default function IncomeStatementPage() {
           />
 
           <FactSheet
-            data={ebitdaData}
+            columnName="ebitda"
             title="EBITDA"
             description="減価償却前営業利益の分布"
             unit="億円"
             binSize={10000000000}
-            xAxisMin={-30000000000}
             scale={100000000}
             customFacts={[
               "4割以上の企業が100億円未満のEBITDA",
@@ -258,7 +203,7 @@ export default function IncomeStatementPage() {
           />
 
           <FactSheet
-            data={dilutedEpsData}
+            columnName="diluted_eps"
             title="希薄化後EPS"
             description="1株あたり利益（希薄化後）の分布"
             unit="円"
